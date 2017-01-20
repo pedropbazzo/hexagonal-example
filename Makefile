@@ -13,6 +13,3 @@ bookmark-web-build:
 
 bookmark-web:
 	docker run -i --rm -p 80:80 --name bookmark-web-html bookmark-web-html-httpd
-
-
-	

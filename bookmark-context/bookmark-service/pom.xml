@@ -16,7 +16,6 @@
 	<name>Bookmark Service</name>
 	<description>Bookmark Service</description>
 
-
 	<dependencies>
 		<dependency>
 			<groupId>com.rodolfoba</groupId>
@@ -28,14 +27,11 @@
 			<groupId>org.demoiselle.jee</groupId>
 			<artifactId>demoiselle-core</artifactId>
 		</dependency>
+        
 		<dependency>
 			<groupId>org.demoiselle.jee</groupId>
 			<artifactId>demoiselle-rest</artifactId>
 		</dependency>
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.demoiselle.jee</groupId> -->
-<!-- 			<artifactId>demoiselle-persistence-jpa</artifactId> -->
-<!-- 		</dependency> -->
 	</dependencies>
 
 </project>
