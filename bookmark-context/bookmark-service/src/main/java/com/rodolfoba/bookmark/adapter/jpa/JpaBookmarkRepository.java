@@ -11,18 +11,18 @@ import com.rodolfoba.bookmark.domain.Bookmark;
 import com.rodolfoba.bookmark.domain.BookmarkRepository;
 import com.rodolfoba.bookmark.infra.persistence.jpa.GenericJpaRepository;
 
-public class BookmarkJpaRepository extends GenericJpaRepository implements BookmarkRepository {
+public class JpaBookmarkRepository extends GenericJpaRepository implements BookmarkRepository {
 
 	private static final long serialVersionUID = 1L;
 	
-	public BookmarkJpaRepository(EntityManager entityManager) {
+	public JpaBookmarkRepository(EntityManager entityManager) {
 		super(entityManager);
 	}
 
 	@Override
 	public void insert(Bookmark bookmark) {
-		BookmarkJpaEntity bookmarkJpaEntity = Assembler.disassemble(bookmark);
-		getEntityManager().persist(bookmarkJpaEntity);
+		BookmarkEntity bookmarkEntity = Assembler.disassemble(bookmark);
+		getEntityManager().persist(bookmarkEntity);
 	}
 
 	@Override
@@ -32,39 +32,39 @@ public class BookmarkJpaRepository extends GenericJpaRepository implements Bookm
 
 	@Override
 	public void deleteById(UUID id) {
-		BookmarkJpaEntity entity = getEntityManager().getReference(BookmarkJpaEntity.class, id);
+		BookmarkEntity entity = getEntityManager().getReference(BookmarkEntity.class, id);
 		getEntityManager().remove(entity);
 	}
 
 	@Override
 	public List<Bookmark> findAll() {
 		String jpql = "select this from Bookmark this";
-		TypedQuery<BookmarkJpaEntity> listQuery = getEntityManager().createQuery(jpql, BookmarkJpaEntity.class);
+		TypedQuery<BookmarkEntity> listQuery = getEntityManager().createQuery(jpql, BookmarkEntity.class);
 		return Assembler.assemble(listQuery.getResultList());
 	}
 
 	@Override
 	public Bookmark load(UUID id) {
-		return Assembler.assemble(getEntityManager().find(BookmarkJpaEntity.class, id));
+		return Assembler.assemble(getEntityManager().find(BookmarkEntity.class, id));
 	}
 
 	public static class Assembler {
 
-		public static Bookmark assemble(BookmarkJpaEntity entity) {
+		public static Bookmark assemble(BookmarkEntity entity) {
 			Bookmark bookmark = new Bookmark(entity.getId(), entity.getDescription(), entity.getLink());
 			return bookmark;
 		}
 
-		public static List<Bookmark> assemble(List<BookmarkJpaEntity> entities) {
+		public static List<Bookmark> assemble(List<BookmarkEntity> entities) {
 			ArrayList<Bookmark> list = new ArrayList<Bookmark>();
-			for (BookmarkJpaEntity entity : entities) {
+			for (BookmarkEntity entity : entities) {
 				list.add(assemble(entity));
 			}
 			return list;
 		}
 
-		public static BookmarkJpaEntity disassemble(Bookmark bookmark) {
-			BookmarkJpaEntity entity = new BookmarkJpaEntity();
+		public static BookmarkEntity disassemble(Bookmark bookmark) {
+			BookmarkEntity entity = new BookmarkEntity();
 			entity.setId(bookmark.getId());
 			entity.setDescription(bookmark.getDescription());
 			entity.setLink(bookmark.getLink());

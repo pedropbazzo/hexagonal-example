@@ -10,7 +10,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Entity(name = "Bookmark")
-class BookmarkJpaEntity implements Serializable {
+class BookmarkEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -30,7 +30,7 @@ class BookmarkJpaEntity implements Serializable {
 	@Pattern(regexp = "^|([a-zA-Z]+://)(\\w+\\.\\w+)(.+)?$", message = "{invalid.url}")
 	private String link;
 
-	public BookmarkJpaEntity() {
+	public BookmarkEntity() {
 	
 	}
 
@@ -74,7 +74,7 @@ class BookmarkJpaEntity implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		BookmarkJpaEntity other = (BookmarkJpaEntity) obj;
+		BookmarkEntity other = (BookmarkEntity) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

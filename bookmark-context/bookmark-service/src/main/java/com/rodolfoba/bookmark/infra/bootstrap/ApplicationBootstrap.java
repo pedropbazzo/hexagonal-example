@@ -5,22 +5,18 @@ import javax.inject.Inject;
 
 import org.demoiselle.jee.core.lifecycle.annotation.Startup;
 
-import com.rodolfoba.bookmark.application.BookmarkUseCaseFactory;
-import com.rodolfoba.bookmark.application.CreateBookmarkCommand;
-import com.rodolfoba.bookmark.application.FindAllBookmarksUseCase;
-import com.rodolfoba.bookmark.application.InsertBookmarkUseCase;
+import com.rodolfoba.bookmark.application.BookmarkApplication;
+import com.rodolfoba.bookmark.application.InsertBookmarkCommand;
 
 @ApplicationScoped
 public class ApplicationBootstrap {
 
     @Inject
-    private BookmarkUseCaseFactory bookmarkUseCaseFactory;
+    private BookmarkApplication bookmarkApplication;
     
 	@Startup
 	public void load() {
-
-		FindAllBookmarksUseCase findAllBookmarksUseCase = bookmarkUseCaseFactory.createFindAllBookmarksUseCase();
-		if (findAllBookmarksUseCase.aciona().isEmpty()) {
+		if (bookmarkApplication.findAll().isEmpty()) {
 			insere("Portal", "http://www.frameworkdemoiselle.gov.br");
 			insere("Documentação", "http://demoiselle.sourceforge.net/docs/framework/reference");
 			insere("Fórum", "http://pt.stackoverflow.com/tags/demoiselle");
@@ -36,12 +32,11 @@ public class ApplicationBootstrap {
 	}
 
 	private void insere(String description, String link) {
-		InsertBookmarkUseCase useCase = bookmarkUseCaseFactory.createInsertBookmarkUseCase(obtemCreateBookmarkCommand(description, link));
-	    useCase.aciona();
+	    bookmarkApplication.insert(obtemCreateBookmarkCommand(description, link));
 	}
 
-	private CreateBookmarkCommand obtemCreateBookmarkCommand(String description, String link) {
-		CreateBookmarkCommand command = new CreateBookmarkCommand();
+	private InsertBookmarkCommand obtemCreateBookmarkCommand(String description, String link) {
+		InsertBookmarkCommand command = new InsertBookmarkCommand();
 		command.description = description;
 		command.link = link;
 		return command;

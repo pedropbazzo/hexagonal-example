@@ -2,8 +2,6 @@ package com.rodolfoba.bookmark.application;
 
 import java.util.UUID;
 
-import javax.persistence.EntityManager;
-
 import com.rodolfoba.bookmark.domain.BookmarkService;
 
 public class DeleteByIdUseCase extends AbstractBookmarkUseCase<Void> {
@@ -11,14 +9,19 @@ public class DeleteByIdUseCase extends AbstractBookmarkUseCase<Void> {
     private BookmarkService bookmarkService;
     private UUID id;
 
-	public DeleteByIdUseCase(BookmarkService bookmarkService, EntityManager entityManager, UUID id) {
-	    super(entityManager);
+	private DeleteByIdUseCase(BookmarkUseCaseConfig config, UUID id) {
+	    super(config.transactionalContext);
+	    this.bookmarkService = config.bookmarkService;
 	    this.id = id;
 	}
 
 	@Override
-	protected Void executa() {
+	protected Void realiza() {
 		bookmarkService.deleteById(id);
 		return null;
+	}
+	
+	public static void executa(BookmarkUseCaseConfig config, UUID id) {
+		new DeleteByIdUseCase(config,  id).aciona();
 	}
 }

@@ -21,14 +21,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import com.rodolfoba.bookmark.application.BookmarkUseCaseFactory;
-import com.rodolfoba.bookmark.application.CreateBookmarkCommand;
-import com.rodolfoba.bookmark.application.DeleteByIdUseCase;
-import com.rodolfoba.bookmark.application.FindAllBookmarksUseCase;
-import com.rodolfoba.bookmark.application.InsertBookmarkUseCase;
-import com.rodolfoba.bookmark.application.LoadBookmarkUseCase;
+import com.rodolfoba.bookmark.application.BookmarkApplication;
+import com.rodolfoba.bookmark.application.InsertBookmarkCommand;
 import com.rodolfoba.bookmark.application.UpdateBookmarkCommand;
-import com.rodolfoba.bookmark.application.UpdateBookmarkUseCase;
 import com.rodolfoba.bookmark.domain.Bookmark;
 
 @Path("bookmarks")
@@ -36,17 +31,15 @@ import com.rodolfoba.bookmark.domain.Bookmark;
 public class BookmarkRestAdapter {
 
     @Inject
-    private BookmarkUseCaseFactory bookmarkUseCaseFactory;
+    private BookmarkApplication bookmarkApplication;
     
 	@GET
 	@Produces("application/json")
 	public List<BookmarkRestDto> findAll() {
-		FindAllBookmarksUseCase useCase = bookmarkUseCaseFactory.createFindAllBookmarksUseCase();
 		List<BookmarkRestDto> dtos = new ArrayList<>();
-		for (Bookmark bookmark : useCase.aciona()) {
+		for (Bookmark bookmark : bookmarkApplication.findAll()) {
 			dtos.add(new BookmarkRestDto(bookmark.getId(), bookmark.getDescription(), bookmark.getLink()));
 		}
-
 		return dtos;
 	}
 
@@ -54,8 +47,7 @@ public class BookmarkRestAdapter {
 	@Path("{id}")
 	@Produces("application/json")
 	public BookmarkRestDto load(@PathParam("id") UUID id) {
-		LoadBookmarkUseCase useCase = bookmarkUseCaseFactory.createLoadBookmarkUseCase(id);
-		Bookmark result = useCase.aciona();
+		Bookmark result = bookmarkApplication.load(id);
 
 		if (result == null) {
 			throw new NotFoundException();
@@ -70,12 +62,11 @@ public class BookmarkRestAdapter {
 	public Response insert(BookmarkRestDto request, @Context UriInfo uriInfo) {
 		checkId(request);
 
-		CreateBookmarkCommand command = new CreateBookmarkCommand();
+		InsertBookmarkCommand command = new InsertBookmarkCommand();
 		command.description = request.description;
 		command.link = request.link;
 		
-		InsertBookmarkUseCase useCase = bookmarkUseCaseFactory.createInsertBookmarkUseCase(command);
-		UUID id = useCase.aciona();
+		UUID id = bookmarkApplication.insert(command);
 		
 		URI location = uriInfo.getRequestUriBuilder().path(id.toString()).build();
 		return Response.created(location).entity(request.id).build();
@@ -93,15 +84,13 @@ public class BookmarkRestAdapter {
 		command.description = request.description;
 		command.link = request.link;
 		
-		UpdateBookmarkUseCase useCase = bookmarkUseCaseFactory.createUpdateBookmarkUseCase(command);
-		useCase.aciona();
+		bookmarkApplication.update(command);
 	}
 
 	@DELETE
 	@Path("{id}")
 	public void delete(@PathParam("id") UUID id) {
-		DeleteByIdUseCase useCase = bookmarkUseCaseFactory.createDeleteByIdUseCase(id);
-		useCase.aciona();
+		bookmarkApplication.delete(id);
 	}
 
 	private void checkId(BookmarkRestDto request) {

@@ -1,6 +1,6 @@
 package com.rodolfoba.bookmark.application;
 
-public class CreateBookmarkCommand {
+public class InsertBookmarkCommand {
 
 	public String description;
 	public String link;
