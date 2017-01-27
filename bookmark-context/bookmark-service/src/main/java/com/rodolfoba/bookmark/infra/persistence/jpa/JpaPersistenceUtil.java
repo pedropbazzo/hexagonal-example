@@ -11,4 +11,9 @@ public class JpaPersistenceUtil {
 	public static EntityManager createEntityManager() {
 		return entityManagerFactory.createEntityManager();
 	}
+	
+	public static void destroyEntityManager(EntityManager entityManager) {
+		entityManager.clear();
+		entityManager.close();
+	}
 }

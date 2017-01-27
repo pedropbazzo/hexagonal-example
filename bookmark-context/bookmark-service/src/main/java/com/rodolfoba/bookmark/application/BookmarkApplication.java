@@ -1,6 +1,7 @@
 package com.rodolfoba.bookmark.application;
 
 import static com.rodolfoba.bookmark.infra.persistence.jpa.JpaPersistenceUtil.createEntityManager;
+import static com.rodolfoba.bookmark.infra.persistence.jpa.JpaPersistenceUtil.destroyEntityManager;
 
 import java.util.List;
 import java.util.UUID;
@@ -30,39 +31,34 @@ public class BookmarkApplication {
 	public List<Bookmark> findAll() {
 		EntityManager em = createEntityManager();
 		List<Bookmark> result = FindAllBookmarksUseCase.executa(createBookmarkUseCaseConfig(em));
-		em.clear();
-		em.close();
+		destroyEntityManager(em);
 		return result;
 	}
 
 	public Bookmark load(UUID id) {
 		EntityManager em = createEntityManager();
 		Bookmark result = LoadByIdBookmarkUseCase.executa(createBookmarkUseCaseConfig(em), id);
-		em.clear();
-		em.close();
+		destroyEntityManager(em);
 		return result;
 	}
 
 	public UUID insert(InsertBookmarkCommand command) {
 		EntityManager em = createEntityManager();
 		UUID result = InsertBookmarkUseCase.executa(createBookmarkUseCaseConfig(em), command);
-		em.clear();
-		em.close();
+		destroyEntityManager(em);
 		return result;
 	}
 	
 	public void update(UpdateBookmarkCommand command) {
 		EntityManager em = createEntityManager();
 		UpdateBookmarkUseCase.executa(createBookmarkUseCaseConfig(em), command);
-		em.clear();
-		em.close();
+		destroyEntityManager(em);
 	}
 	
 	public void delete(UUID id) {
 		EntityManager em = createEntityManager();
 		DeleteByIdBookmarkUseCase.executa(createBookmarkUseCaseConfig(em), id);
-		em.clear();
-		em.close();
+		destroyEntityManager(em);
 	}
 
 }
