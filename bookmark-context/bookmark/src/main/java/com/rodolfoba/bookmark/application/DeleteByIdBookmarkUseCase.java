@@ -4,12 +4,12 @@ import java.util.UUID;
 
 import com.rodolfoba.bookmark.domain.BookmarkService;
 
-public class DeleteByIdUseCase extends AbstractBookmarkUseCase<Void> {
+public class DeleteByIdBookmarkUseCase extends AbstractBookmarkUseCase<Void> {
 
     private BookmarkService bookmarkService;
     private UUID id;
 
-	private DeleteByIdUseCase(BookmarkUseCaseConfig config, UUID id) {
+	private DeleteByIdBookmarkUseCase(BookmarkUseCaseConfig config, UUID id) {
 	    super(config.transactionalContext);
 	    this.bookmarkService = config.bookmarkService;
 	    this.id = id;
@@ -22,6 +22,6 @@ public class DeleteByIdUseCase extends AbstractBookmarkUseCase<Void> {
 	}
 	
 	public static void executa(BookmarkUseCaseConfig config, UUID id) {
-		new DeleteByIdUseCase(config,  id).aciona();
+		new DeleteByIdBookmarkUseCase(config,  id).aciona();
 	}
 }

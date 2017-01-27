@@ -37,7 +37,7 @@ public class BookmarkApplication {
 
 	public Bookmark load(UUID id) {
 		EntityManager em = createEntityManager();
-		Bookmark result = LoadBookmarkUseCase.executa(createBookmarkUseCaseConfig(em), id);
+		Bookmark result = LoadByIdBookmarkUseCase.executa(createBookmarkUseCaseConfig(em), id);
 		em.clear();
 		em.close();
 		return result;
@@ -60,7 +60,7 @@ public class BookmarkApplication {
 	
 	public void delete(UUID id) {
 		EntityManager em = createEntityManager();
-		DeleteByIdUseCase.executa(createBookmarkUseCaseConfig(em), id);
+		DeleteByIdBookmarkUseCase.executa(createBookmarkUseCaseConfig(em), id);
 		em.clear();
 		em.close();
 	}
