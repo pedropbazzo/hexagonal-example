@@ -9,7 +9,7 @@ import javax.persistence.TypedQuery;
 
 import com.rodolfoba.bookmark.domain.Bookmark;
 import com.rodolfoba.bookmark.domain.BookmarkRepository;
-import com.rodolfoba.bookmark.infra.persistence.jpa.GenericJpaRepository;
+import com.rodolfoba.infra.persistence.jpa.GenericJpaRepository;
 
 public class JpaBookmarkRepository extends GenericJpaRepository implements BookmarkRepository {
 

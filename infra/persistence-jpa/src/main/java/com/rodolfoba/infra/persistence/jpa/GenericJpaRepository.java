@@ -1,4 +1,4 @@
-package com.rodolfoba.bookmark.infra.persistence.jpa;
+package com.rodolfoba.infra.persistence.jpa;
 
 import java.io.Serializable;
 

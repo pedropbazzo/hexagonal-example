@@ -1,6 +1,10 @@
 bookmark-install:
 	mvn clean install -f bookmark-context/bookmark
 
+.PHONY: infra
+infra:
+	mvn clean install -f infra/persistence-jpa
+
 bookmark-service-build:
 	mvn clean install -f bookmark-context/bookmark-service \
 	&& docker build -t bookmark-service-wildfly bookmark-context/bookmark-service
