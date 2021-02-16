@@ -19,3 +19,5 @@ public abstract class GenericJpaRepository implements Serializable {
 	}
 
 }
+
+//read arq
